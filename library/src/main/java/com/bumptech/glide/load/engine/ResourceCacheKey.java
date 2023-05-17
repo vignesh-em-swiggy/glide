@@ -115,4 +115,8 @@ final class ResourceCacheKey implements Key {
         + options
         + '}';
   }
+
+  public Key getSignature() {
+    return signature;
+  }
 }

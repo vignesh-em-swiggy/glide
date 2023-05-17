@@ -45,4 +45,8 @@ public final class DataCacheKey implements Key {
     sourceKey.updateDiskCacheKey(messageDigest);
     signature.updateDiskCacheKey(messageDigest);
   }
+
+  public Key getSignature() {
+    return signature;
+  }
 }
