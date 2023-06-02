@@ -42,6 +42,7 @@ class MultiModelLoader<Model, Data> implements ModelLoader<Model, Data> {
     Key sourceKey = null;
     int size = modelLoaders.size();
     List<DataFetcher<Data>> fetchers = new ArrayList<>(size);
+    List<Key> alternateCacheKeys = new ArrayList<>();
     //noinspection ForLoopReplaceableByForEach to improve perf
     for (int i = 0; i < size; i++) {
       ModelLoader<Model, Data> modelLoader = modelLoaders.get(i);
@@ -50,11 +51,12 @@ class MultiModelLoader<Model, Data> implements ModelLoader<Model, Data> {
         if (loadData != null) {
           sourceKey = loadData.sourceKey;
           fetchers.add(loadData.fetcher);
+          alternateCacheKeys.addAll(loadData.alternateKeys);
         }
       }
     }
     return !fetchers.isEmpty() && sourceKey != null
-        ? new LoadData<>(sourceKey, new MultiFetcher<>(fetchers, exceptionListPool))
+        ? new LoadData<>(sourceKey, alternateCacheKeys, new MultiFetcher<>(fetchers, exceptionListPool))
         : null;
   }
 
